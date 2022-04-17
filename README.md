@@ -19,7 +19,7 @@ Running code
 
 Resources
 
-[SHA256english.pdf](https://github.com/ForgiveWifi/SHA-256/SHA256english.pdf)
+https://github.com/ForgiveWifi/SHA-256/blob/main/SHA256english.pdf
 
 https://blog.boot.dev/cryptography/how-sha-2-works-step-by-step-sha-256/
 
