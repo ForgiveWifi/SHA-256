@@ -1,6 +1,6 @@
 module Main where
 
-import SHA256 (sha256)
+import Sha256 (sha256)
 import Control.Monad (when)
 import qualified Data.Text.IO as IO (readFile)
 
