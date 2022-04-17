@@ -8,6 +8,8 @@ Here is how SHA-256 works:
 4. Compression on each word in each block
 5. Convert final values after compression to hex 
 
+<img width="1226" alt="Screen Shot 2022-04-16 at 7 00 33 PM" src="https://user-images.githubusercontent.com/85458169/163735040-e3243fb4-9203-4041-8edd-4337cc3866b4.png">
+
 Running code 
 1. install cabal 
 2. run "git clone https://github.com/ForgiveWifi/SHA-256.git"
@@ -16,7 +18,7 @@ Running code
 5. run "cabal run"
 
 
-
 Resources
+[SHA256english.pdf](https://github.com/ForgiveWifi/SHA-256/SHA256english.pdf)
 https://blog.boot.dev/cryptography/how-sha-2-works-step-by-step-sha-256/
 https://www.youtube.com/watch?v=f9EbD6iY9zI
