@@ -4,9 +4,9 @@ Secure Hash Algorithm 256 or SHA-256 is a cryptographic algorithm that can take 
 Here is how SHA-256 works:
 1. Convert data to binary 
 2. Padding message
-3. Create message schedule with each block 
-4. Compression on each word in each block
-5. Convert final values after compression to hex 
+3. Create message schedule with each block in message 
+4. Compression on each word in each message block 
+5. Convert final values after compression to hex
 
 <img width="1226" alt="Screen Shot 2022-04-16 at 7 00 33 PM" src="https://user-images.githubusercontent.com/85458169/163735040-e3243fb4-9203-4041-8edd-4337cc3866b4.png">
 
@@ -16,7 +16,6 @@ Running code
 3. run "cd SHA-256"
 4. run "cd code" 
 5. run "cabal run"
-
 
 Resources
 [SHA256english.pdf](https://github.com/ForgiveWifi/SHA-256/SHA256english.pdf)
