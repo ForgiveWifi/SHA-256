@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Sha256 (sha256) where
 
 import Data.List (transpose, replicate)
@@ -163,7 +164,7 @@ first64Primes = take 64 primes
 
 
 
---Square and Prime Roots
+--Square and Cube Roots
 primeSqrtRoot :: Int -> Byte
 primeSqrtRoot = hexToBinary . intToHex . truncate . two32 . takeDecimal . sqrt . fromIntegral
 
