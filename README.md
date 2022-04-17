@@ -18,6 +18,9 @@ Running code
 3. run "cd SHA-256"
 4. run "cd code" 
 5. run "cabal run"
+6. Select 1 and enter a string 
+7. Enter "y"
+8. Select 2 and "test.tx" 
 
 Resources
 
