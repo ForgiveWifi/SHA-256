@@ -18,6 +18,7 @@ Running code
 5. run "cabal run"
 
 Resources
+
 [SHA256english.pdf](https://github.com/ForgiveWifi/SHA-256/SHA256english.pdf)
 
 https://blog.boot.dev/cryptography/how-sha-2-works-step-by-step-sha-256/
