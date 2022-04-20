@@ -16,7 +16,6 @@ Here is how SHA-256 works:
 
 Make sure cabal is installed 
 ```
-
 $ git clone https://github.com/ForgiveWifi/SHA-256.git
 $ cd SHA-256
 $ cd code
