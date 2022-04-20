@@ -12,15 +12,17 @@ Here is how SHA-256 works:
 
 <img width="1226" alt="Screen Shot 2022-04-16 at 7 00 33 PM" src="https://user-images.githubusercontent.com/85458169/163735040-e3243fb4-9203-4041-8edd-4337cc3866b4.png">
 
-Running code 
+#Running code 
 1. install cabal 
-2. run "git clone https://github.com/ForgiveWifi/SHA-256.git"
-3. run "cd SHA-256"
-4. run "cd code" 
-5. run "cabal run"
-6. Select 1 and enter a string 
-7. Enter "y"
-8. Select 2 and "test.tx" 
+```
+
+$ git clone https://github.com/ForgiveWifi/SHA-256.gi
+$ cd SHA-256"
+$ cd code
+$ cabal run
+$ 2
+$ test.tx
+```
 
 Resources
 
