@@ -18,7 +18,7 @@ Make sure cabal is installed
 ```
 
 $ git clone https://github.com/ForgiveWifi/SHA-256.git
-$ cd SHA-256"
+$ cd SHA-256
 $ cd code
 $ cabal run
 $ 2
