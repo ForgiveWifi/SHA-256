@@ -25,7 +25,7 @@ $ 2
 $ test.tx
 ```
 
-Resources
+# Resources
 
 https://github.com/ForgiveWifi/SHA-256/blob/main/SHA256english.pdf
 
