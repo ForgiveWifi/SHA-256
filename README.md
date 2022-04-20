@@ -12,8 +12,9 @@ Here is how SHA-256 works:
 
 <img width="1226" alt="Screen Shot 2022-04-16 at 7 00 33 PM" src="https://user-images.githubusercontent.com/85458169/163735040-e3243fb4-9203-4041-8edd-4337cc3866b4.png">
 
-#Running code 
-1. install cabal 
+# Running code 
+
+Make sure cabal is installed 
 ```
 
 $ git clone https://github.com/ForgiveWifi/SHA-256.gi
