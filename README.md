@@ -1,5 +1,5 @@
 # SHA-256
-This is a program written in Haskell that takes a string or a file and hashes it using SHA-256.  It is not optimized for large strings and files.
+This is a program written in Haskell that takes a string or a file and hashes it using SHA-256.  It is not optimized for large strings and files.  Instead, binary is represented as a [Bool] and all the conversions between hex, Int, and bytes are all functions in the src folder.
 
 Secure Hash Algorithm 256 or SHA-256 is a cryptographic algorithm that can take arbitray data, which can have an arbitrary length, and puts it into a function that produces a 256 bit long value that is represented with a hexidecimal string.  It is algorithm that is used in Bitcoin mining and hash functions like SHA-256 are used everywhere in the cryptocurrency world.  Hash functions allow arbitrary data to be represented, without showing what data is actually contained.  
 

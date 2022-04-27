@@ -4,7 +4,7 @@ module Sha256 (sha256) where
 import Data.List (transpose, replicate)
 import Data.Char (ord,chr)
 
-type Bit = Int
+type Bit = Bool
 type Byte = [Bit]
 type Constant = Byte
 
@@ -19,7 +19,7 @@ sha256 = hashToHex . compressionMessage . messageSchedule . paddingString
 --Shift and Rotate 
 shR :: Int -> Byte -> Byte
 shR 0 byte = byte
-shR n byte = shR (n-1) $ 0 : init byte
+shR n byte = shR (n-1) $ False : init byte
 
 rotR :: Int -> Byte -> Byte
 rotR 0 byte = byte
@@ -48,16 +48,16 @@ xor = map xorf . transpose
   where
     xorf :: Byte -> Bit
     xorf byte
-      | length (filter (==1) byte) == 1 = 1
-      | 0 `notElem` byte = 1
-      | otherwise = 0
+      | and byte = True
+      | length (filter (==True) byte) == 1 = True
+      | otherwise = False
 
 choices :: [Byte] -> Byte
 choices = map choicef . transpose
   where
     choicef :: Byte -> Bit
     choicef [x,y,z]
-      | x == 1 = y
+      | x = y
       | otherwise = z
 
 majority :: [Byte] -> Byte
@@ -70,33 +70,33 @@ majority = map majorityf . transpose
       | otherwise = z
 
 addition :: [Byte] -> Byte
-addition byte = byteLength 32 . intToBinary $ sumBinary `mod` (2 ^ 32)
+addition byte = byteLength 32 . intToByte $ sumBinary `mod` (2 ^ 32)
   where
-    sumBinary = sum $ map binaryToInt byte
+    sumBinary = sum $ map byteToInt byte
 
 
 
 --Padding
 paddingString :: String -> [Byte]
-paddingString = paddingMessage . byteSplit 512 . stringToBinary
+paddingString = paddingMessage . byteSplit 512 . stringToByte
 
 paddingMessage :: [Byte] -> [Byte]
 paddingMessage msg
-    | length lastBlock <= 447 = init msg ++ [lastBlock ++ [1] ++ replicate n 0 ++ msgLength]
-    | otherwise               = init msg ++ byteSplit 512 (lastBlock ++ [1] ++ replicate (512 - negate n) 0 ++ msgLength)
+    | length lastBlock <= 447 = init msg ++ [lastBlock ++ [True] ++ replicate n False ++ msgLength]
+    | otherwise               = init msg ++ byteSplit 512 (lastBlock ++ [True] ++ replicate (512 - negate n) False ++ msgLength)
   where
     n = 448 - (length lastBlock + 1)
     lastBlock = last msg
     msgLength = messageLength msg
 
 messageLength :: [Byte] -> Byte
-messageLength = byteLength 64 . intToBinary . sum . map length
+messageLength = byteLength 64 . intToByte . sum . map length
 
 
 
 --Message Schedule
 messageSchedule :: [Byte] -> [Block]
-messageSchedule = map messageBlock 
+messageSchedule = map messageBlock
 
 messageBlock :: Byte -> [Byte]
 messageBlock = extendSchedule . byteSplit 32
@@ -116,18 +116,18 @@ mkSchedule schedule = addition $ sigma1 (index $ i - 2) : index (i - 7) : sigma0
 
 --Compression 
 compressionMessage :: [Block] -> Hash
-compressionMessage (x:xs) = compression xs $ initialCompression x 
+compressionMessage (x:xs) = compression xs $ initialCompression x
 
 initialCompression :: Block -> Hash
-initialCompression x = compressionBlock x constants initialHashValues initialHashValues 
+initialCompression x = compressionBlock x constants initialHashValues initialHashValues
 
 compression :: [Block] -> Hash -> Hash
 compression [] values = values
-compression (x:xs) values = compression xs (compressionBlock x constants values values) 
+compression (x:xs) values = compression xs (compressionBlock x constants values values)
 
 compressionBlock :: Block -> [Constant] -> Hash -> Hash -> Hash
 compressionBlock [] [] values ivalues = addInitialValue [values,ivalues]
-compressionBlock (x:xs) (y:ys) values ivalues = compressionBlock xs ys (compress x y values) ivalues 
+compressionBlock (x:xs) (y:ys) values ivalues = compressionBlock xs ys (compress x y values) ivalues
 
 addInitialValue :: [Hash] -> Hash
 addInitialValue = map addition . transpose
@@ -166,10 +166,10 @@ first64Primes = take 64 primes
 
 --Square and Cube Roots
 primeSqrtRoot :: Int -> Byte
-primeSqrtRoot = hexToBinary . intToHex . truncate . two32 . takeDecimal . sqrt . fromIntegral
+primeSqrtRoot = hexToByte . intToHex . truncate . two32 . takeDecimal . sqrt . fromIntegral
 
 primeCubeRoot :: Int -> Byte
-primeCubeRoot = hexToBinary . intToHex . truncate . two32 . takeDecimal . cubeRoot . fromIntegral
+primeCubeRoot = hexToByte . intToHex . truncate . two32 . takeDecimal . cubeRoot . fromIntegral
   where
     cubeRoot x = x ** (1/3)
 
@@ -193,13 +193,17 @@ initialHashValues = map primeSqrtRoot first8Primes
 
 
 --Converstions 
-intToBinary :: Int -> Byte
-intToBinary 0 = []
-intToBinary n = intToBinary (div n 2) ++ [mod n 2]
+intToByte :: Int -> Byte
+intToByte 0 = []
+intToByte n = intToByte (div n 2) ++ [binary $ mod n 2]
+  where 
+    binary n = case n of 
+      1 -> True
+      0 -> False
 
-binaryToInt :: Byte -> Int
-binaryToInt [] = 0
-binaryToInt (x:xs) = x * (2 ^ n) + binaryToInt xs
+byteToInt :: Byte -> Int
+byteToInt [] = 0
+byteToInt (x:xs) = fromEnum x * (2 ^ n) + byteToInt xs
   where
     n = length (x:xs) - 1
 
@@ -215,21 +219,34 @@ hexToInt (x:xs) = findHexKey x * 16 ^ n + hexToInt xs
     n = length (x:xs) - 1
 
 
-hexToBinary :: String -> Byte
-hexToBinary = concatMap (byteLength 4 . intToBinary . findHexKey)
+hexToByte :: String -> Byte
+hexToByte = concatMap (byteLength 4 . intToByte . findHexKey)
 
-binaryToHex :: Byte -> String 
-binaryToHex = intToHex . binaryToInt
+byteToHex :: Byte -> String
+byteToHex = intToHex . byteToInt
 
 
-hashToHex :: Hash -> String 
-hashToHex = concatMap hexHash 
+hashToHex :: Hash -> String
+hashToHex = concatMap hexHash
   where
     hexHash :: Byte -> String
-    hexHash = concatMap binaryToHex . byteSplit 4
+    hexHash = concatMap byteToHex . byteSplit 4
 
-stringToBinary :: String -> Byte
-stringToBinary = concatMap (byteLength 8 . intToBinary . ord)
+stringToByte :: String -> Byte
+stringToByte = concatMap (byteLength 8 . intToByte . ord)
+
+
+
+--Length of Bytes 
+byteLength :: Int -> Byte -> Byte
+byteLength n byte
+  | length byte == n = byte
+  | otherwise = byteLength n (False : byte)
+
+byteSplit :: Int -> Byte -> [Byte]
+byteSplit n byte = case splitAt n byte of
+    (x,[]) -> [x]
+    (x,y) -> x : byteSplit n y
 
 
 
@@ -245,17 +262,6 @@ findHexKey = findKey hexMap
 findHexValue :: Int -> Char
 findHexValue = findValue hexMap
 
-
---Length of Bytes 
-byteLength :: Int -> Byte -> Byte
-byteLength n byte
-  | length byte == n = byte
-  | otherwise = byteLength n (0 : byte)
-
-byteSplit :: Int -> Byte -> [Byte]
-byteSplit n byte = case splitAt n byte of
-    (x,[]) -> [x]
-    (x,y) -> x : byteSplit n y
 
 
 --Lookup 
