@@ -33,7 +33,7 @@ prompt = do
         string <- getLine
         putStrLn ""
         putStrLn $ "Hashing: " ++ string
-        putStrLn "" 
+        putStrLn "--"
         putStr (sha256 string)
         putStrLn ""
         putStrLn ""
@@ -46,7 +46,7 @@ prompt = do
         contents <- readFile file
         putStrLn ""
         putStrLn $ "Hashing: " ++ file 
-        putStrLn ""
+        putStrLn "--"
         putStrLn (sha256 contents)
         putStrLn ""
         putStrLn ""

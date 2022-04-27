@@ -20,6 +20,26 @@
   (major1) == 4 && (major2) <  14 || \
   (major1) == 4 && (major2) == 14 && (minor) <= 3)
 #endif /* MIN_VERSION_base */
+/* package sha256-0.1.0.0 */
+#ifndef VERSION_sha256
+#define VERSION_sha256 "0.1.0.0"
+#endif /* VERSION_sha256 */
+#ifndef MIN_VERSION_sha256
+#define MIN_VERSION_sha256(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  1 || \
+  (major1) == 0 && (major2) == 1 && (minor) <= 0)
+#endif /* MIN_VERSION_sha256 */
+/* package text-1.2.4.1 */
+#ifndef VERSION_text
+#define VERSION_text "1.2.4.1"
+#endif /* VERSION_text */
+#ifndef MIN_VERSION_text
+#define MIN_VERSION_text(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  2 || \
+  (major1) == 1 && (major2) == 2 && (minor) <= 4)
+#endif /* MIN_VERSION_text */
 
 /* tool gcc-13.1.6 */
 #ifndef TOOL_VERSION_gcc
